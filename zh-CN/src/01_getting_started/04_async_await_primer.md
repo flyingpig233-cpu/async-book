@@ -30,7 +30,7 @@ async fn sing_song(song: Song) { /* ... */ }
 async fn dance() { /* ... */ }
 ```
 
-One way to do learn, sing, and dance would be to block on each of these individually:
+学习、唱歌和跳舞的一种方法是将这些活动分别进行
 
 ```rust,ignore
 {{#include ../../examples/01_04_async_await_primer/src/lib.rs:block_on_each}}
@@ -42,4 +42,4 @@ One way to do learn, sing, and dance would be to block on each of these individu
 {{#include ../../examples/01_04_async_await_primer/src/lib.rs:block_on_main}}
 ```
 
-In this example, learning the song must happen before singing the song, but both learning and singing can happen at the same time as dancing. If we used `block_on(learn_song())` rather than `learn_song().await` in `learn_and_sing`, the thread wouldn't be able to do anything else while `learn_song` was running. This would make it impossible to dance at the same time. By `.await`-ing the `learn_song` future, we allow other tasks to take over the current thread if `learn_song` is blocked. This makes it possible to run multiple futures to completion concurrently on the same thread.
+在这个例子中，学习歌曲必须在唱歌之前进行，但学习和唱歌可以与跳舞同时进行。如果我们在`learn_and_sing`中使用`block_on(learn_song())`而不是`learn_song().await` ，则在`learn_song`运行时线程将无法执行任何其他操作。这将导致无法同时跳舞。通过`.await` -ing `learn_song` future，如果`learn_song`被阻塞，我们允许其他任务接管当前线程。这使得在同一线程上同时运行多个future以完成成为可能。
